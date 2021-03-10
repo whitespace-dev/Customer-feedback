@@ -63,6 +63,12 @@ class Forwarding
             $message = '<strong>' . __('Note: The sender did not leave his/her email address. You will not be able to answer this feedback message.', 'customer-feedback') . '</strong><br><br>' . $message;
         }
 
+        $message = apply_filters(
+            'customer_feedback_forwarding_message',
+            $message,
+            compact('answerId', 'postId', 'comment', 'email', 'topicId','from')
+        );
+
         foreach ($to as $email) {
             wp_mail(
                 $email,
