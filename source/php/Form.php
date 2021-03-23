@@ -30,7 +30,11 @@ class Form
 
         $postExtended = get_extended($post->post_content);
 
-        if (empty($postExtended['main']) || (strpos($post->post_content, '<!--more-->') !== false && empty($postExtended['extended']))) {
+        $post_has_content = !empty($postExtended['main']) && (strpos($post->post_content, '<!--more-->') === false || !empty($postExtended['extended']));
+
+        $post_has_content = apply_filters('CustomerFeedback/post_has_content', $post_has_content, $post, $postExtended);
+
+        if (!$post_has_content) {
             return;
         }
 
